@@ -27,3 +27,12 @@ def load_jobs_from_db():
   rows = [row2dict(row, columns) for row in result]
   jobs = [row_dict for row_dict in rows]
   return jobs
+
+
+def load_job_from_db(id):
+  with engine.connect() as conn:
+    result = conn.execute(text(f"SELECT * FROM jobs WHERE id = :val"),
+                          {"val": id})
+    columns = result.keys()
+  rows = [row2dict(row, columns) for row in result]
+  return None if len(rows) == 0 else rows[0]
